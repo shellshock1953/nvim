@@ -2,7 +2,13 @@ return {
   "jay-babu/project.nvim",
   main = "project_nvim",
   event = "VeryLazy",
-  opts = { ignore_lsp = { "lua_ls" } },
+  opts = {
+    ignore_lsp = { "lua_ls" },
+    manual_mode = true,  -- Add this line
+    detection_methods = { "pattern" },  -- Add this to reduce automatic behavior
+    patterns = { ".git" },  -- Specify patterns you want to use
+    scope_chdir = false,    -- Add this to prevent automatic directory changes
+  },
   specs = {
     { "AstroNvim/astrocore", opts = { rooter = { enabled = false } } },
     {
@@ -23,5 +29,5 @@ return {
         },
       },
     },
-    }
   }
+}
