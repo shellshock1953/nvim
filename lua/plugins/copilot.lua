@@ -4,27 +4,22 @@ return {
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      require("copilot").setup({})
+      require("copilot").setup({
+        panel = { enabled = false },
+        suggestion = { enabled = false },
+        filetypes = {
+          ["*"] = true,
+        },
+      })
     end,
-    filetypes = {
-      yaml = true,
-      markdown = false,
-      help = false,
-      gitcommit = false,
-      gitrebase = false,
-      hgcommit = false,
-      svn = false,
-      cvs = false,
-      ["."] = false,
-    },
   },
   {
     "zbirenbaum/copilot-cmp",
+    dependencies = { "copilot.lua" },
     config = function()
       require("copilot_cmp").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false }
+        method = "getCompletionsCycling",
       })
-    end
+    end,
   },
 }
