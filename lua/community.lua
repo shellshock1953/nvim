@@ -8,7 +8,6 @@ return {
   { import = "astrocommunity.pack.yaml" },
   { import = "astrocommunity.pack.docker" },
   { import = "astrocommunity.diagnostics.trouble-nvim" },
-  { import = "astrocommunity.motion.leap-nvim" },
   { import = "astrocommunity.motion.mini-surround" },
   { import = "astrocommunity.motion.mini-move" },
   { import = "astrocommunity.motion.harpoon" },
