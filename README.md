@@ -11,6 +11,7 @@ Leader Key: `<Space>` (` `)
 #### Core Navigation & Files
 - `<C-h/j/k/l>` - Window navigation
 - `<C-Up/Down/Left/Right>` - Window resizing
+- `<C-w>z` - Toggle window maximize/restore (like Zellij)
 - `<C-s>` - Force write (save)
 - `<C-q>` - Force quit
 - `<leader>n` - New file

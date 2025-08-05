@@ -84,6 +84,27 @@ return {
           ["<leader>d"] = { desc = "Docker/DevOps" },
           ["<leader>x"] = { desc = "eXtra tools" },
         },
+        -- Normal mode window management
+        n = {
+          -- Window maximize/restore toggle (like Zellij Ctrl+a+z)
+          ["<C-w>z"] = {
+            function()
+              vim.t.zoom_winrestcmd = vim.t.zoom_winrestcmd or nil
+              if vim.t.zoom_winrestcmd then
+                -- Restore windows
+                vim.cmd(vim.t.zoom_winrestcmd)
+                vim.t.zoom_winrestcmd = nil
+              else
+                -- Save current window configuration
+                vim.t.zoom_winrestcmd = vim.fn.winrestcmd()
+                -- Maximize current window
+                vim.cmd("resize")
+                vim.cmd("vertical resize")
+              end
+            end,
+            desc = "Toggle window maximize/restore"
+          },
+        },
       },
     },
   },
