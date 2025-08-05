@@ -45,6 +45,69 @@ return {
     ---@diagnostic disable: missing-fields
     config = {
       -- clangd = { capabilities = { offsetEncoding = "utf-8" } },
+      -- Bash LSP for shell scripts
+      bashls = {},
+      -- YAML LSP with Kubernetes schemas
+      yamlls = {
+        settings = {
+          yaml = {
+            schemas = {
+              kubernetes = "*.yaml",
+              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+              ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+              ["https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json"] = "/*argo*.yaml",
+              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.{yml,yaml}",
+            },
+            validate = true,
+            customTags = {
+              "!reference sequence",
+              "!Sub",
+              "!GetAtt",
+              "!GetAZs",
+              "!ImportValue",
+              "!Select",
+              "!Split",
+              "!Join sequence",
+              "!FindInMap sequence",
+              "!Select sequence",
+              "!Ref",
+              "!Equals sequence",
+              "!If sequence",
+              "!Not sequence",
+              "!And sequence",
+              "!Or sequence",
+              "!Base64",
+              "!Cidr",
+              "!Sub sequence",
+            },
+          },
+        },
+      },
+      -- JSON LSP with schemas
+      jsonls = {
+        settings = {
+          json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+          },
+        },
+      },
+      -- Docker LSP
+      dockerls = {},
+      docker_compose_language_service = {},
+      -- Terraform LSP (already configured via terraform pack)
+      terraformls = {},
+      -- Python LSP (already configured via python pack)
+      -- Helm LSP
+      helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            yamlls = {
+              path = "yaml-language-server",
+            },
+          },
+        },
+      },
     },
     -- customize how language servers are attached
     handlers = {

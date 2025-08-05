@@ -41,4 +41,50 @@ opt.lazyredraw = true       -- Faster scrolling
 opt.synmaxcol = 240         -- Max column for syntax highlight
 opt.updatetime = 250        -- ms to wait for trigger an event
 
-return {}
+return {
+  -- Additional mappings for DevOps workflows
+  {
+    "AstroNvim/astrocore",
+    ---@type AstroCoreOpts
+    opts = {
+      mappings = {
+        n = {
+          -- DevOps navigation groups
+          ["<leader>k"] = { desc = "Kubernetes" },
+          ["<leader>d"] = { desc = "Docker/DevOps" },
+          ["<leader>g"] = { desc = "Git" },
+          ["<leader>t"] = { desc = "Terminal" },
+          ["<leader>r"] = { desc = "Run/Replace" },
+          ["<leader>x"] = { desc = "eXtra tools" },
+          ["<leader>y"] = { desc = "YAML tools" },
+          ["<leader>a"] = { desc = "API testing" },
+          ["<leader>j"] = { desc = "JSON tools" },
+          
+          -- Quick access to common DevOps files
+          ["<leader>fk"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{yaml,yml},--glob,!.git<cr>", desc = "Find YAML files" },
+          ["<leader>ft"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{tf,tfvars},--glob,!.git<cr>", desc = "Find Terraform files" },
+          ["<leader>fd"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/Dockerfile*,--glob,**/*docker-compose*.{yml,yaml},--glob,!.git<cr>", desc = "Find Docker files" },
+          ["<leader>fh"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*values*.{yaml,yml},--glob,**/Chart.yaml,--glob,!.git<cr>", desc = "Find Helm files" },
+          
+          -- Git shortcuts (removed conflicts with AstroNvim defaults)
+          -- AstroNvim already provides: gb (branches), gc (commits), gt (status)
+          -- Use <leader>tl for lazygit (your preferred tool)
+          ["<leader>gP"] = { "<cmd>Git push<cr>", desc = "Git push" },
+          ["<leader>gp"] = { "<cmd>Git pull<cr>", desc = "Git pull" },
+          
+          -- Quick edits
+          ["<leader>ek"] = { "<cmd>e ~/.kube/config<cr>", desc = "Edit kubeconfig" },
+          ["<leader>es"] = { "<cmd>e ~/.ssh/config<cr>", desc = "Edit SSH config" },
+          ["<leader>ea"] = { "<cmd>e ~/.aws/credentials<cr>", desc = "Edit AWS credentials" },
+          ["<leader>et"] = { "<cmd>e ~/.terraformrc<cr>", desc = "Edit Terraform RC" },
+        },
+        v = {
+          -- Visual mode DevOps mappings
+          ["<leader>k"] = { desc = "Kubernetes" },
+          ["<leader>d"] = { desc = "Docker/DevOps" },
+          ["<leader>x"] = { desc = "eXtra tools" },
+        },
+      },
+    },
+  },
+}

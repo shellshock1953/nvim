@@ -11,4 +11,6 @@ return {
   { import = "astrocommunity.motion.mini-surround" },
   { import = "astrocommunity.motion.mini-move" },
   { import = "astrocommunity.motion.harpoon" },
+  -- Git integration (already added in gitops.lua, but listed here for visibility)
+  -- { import = "astrocommunity.git.vim-fugitive" },
 }
