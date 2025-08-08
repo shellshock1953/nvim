@@ -134,6 +134,7 @@ Leader Key: `<Space>` (` `)
 #### Productivity Tools
 - `<leader>pt` - Toggle time tracking
 - `<leader>pr` - Time report
+- `<leader>bb` - Find buffers (Telescope)
 - `<leader>xe` - Base64 encode
 - `<leader>xd` - Base64 decode
 
