@@ -44,26 +44,6 @@ return {
     },
   },
 
-  -- Buffer management optimized for DevOps file juggling
-  {
-    "EL-MASTOR/bufferlist.nvim",
-    lazy = false,
-    keys = {
-      { "<leader>bb", "<cmd>BufferList<cr>", desc = "Buffer List" },
-    },
-    opts = {
-      keymap = {
-        close_buf_prefix = "c",
-        force_close_buf_prefix = "f",
-        save_buffer = "s",
-        multi_close_buf = "m",
-        close_all_buffers_right = "R",
-        close_all_buffers_left = "L",
-        close_all_buffers_except_current = "X",
-        preview_buffer = "p",
-      },
-    },
-  },
 
   -- YAML folding for large Kubernetes manifests
   {

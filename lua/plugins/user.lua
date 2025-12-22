@@ -40,6 +40,7 @@ opt.history = 100           -- Remember N lines in history
 opt.lazyredraw = true       -- Faster scrolling
 opt.synmaxcol = 240         -- Max column for syntax highlight
 opt.updatetime = 250        -- ms to wait for trigger an event
+opt.fixendofline = true     -- Ensure files end with newline
 
 return {
   -- Additional mappings for DevOps workflows
@@ -77,6 +78,9 @@ return {
           ["<leader>es"] = { "<cmd>e ~/.ssh/config<cr>", desc = "Edit SSH config" },
           ["<leader>ea"] = { "<cmd>e ~/.aws/credentials<cr>", desc = "Edit AWS credentials" },
           ["<leader>et"] = { "<cmd>e ~/.terraformrc<cr>", desc = "Edit Terraform RC" },
+          
+          -- Buffer management with Telescope
+          ["<leader>bb"] = { "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
         },
         v = {
           -- Visual mode DevOps mappings
