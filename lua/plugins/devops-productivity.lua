@@ -18,25 +18,25 @@ return {
   },
   
   -- Docker integration
-  {
-    "dgrbrady/nvim-docker",
-    dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-    cmd = { "Docker", "DockerContainers", "DockerImages", "DockerNetworks", "DockerVolumes" },
-    keys = {
-      { "<leader>d", "", desc = "Docker", mode = { "n", "v" } },
-      { "<leader>dc", "<cmd>DockerContainers<cr>", desc = "Docker containers" },
-      { "<leader>di", "<cmd>DockerImages<cr>", desc = "Docker images" },
-      { "<leader>dn", "<cmd>DockerNetworks<cr>", desc = "Docker networks" },
-      { "<leader>dv", "<cmd>DockerVolumes<cr>", desc = "Docker volumes" },
-    },
-    opts = {
-      popup = {
-        width = "90%",
-        height = "90%",
-        border = "rounded",
-      },
-    },
-  },
+  -- {
+  --   "dgrbrady/nvim-docker",
+  --   dependencies = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
+  --   cmd = { "Docker", "DockerContainers", "DockerImages", "DockerNetworks", "DockerVolumes" },
+  --   keys = {
+  --     { "<leader>d", "", desc = "Docker", mode = { "n", "v" } },
+  --     { "<leader>dc", "<cmd>DockerContainers<cr>", desc = "Docker containers" },
+  --     { "<leader>di", "<cmd>DockerImages<cr>", desc = "Docker images" },
+  --     { "<leader>dn", "<cmd>DockerNetworks<cr>", desc = "Docker networks" },
+  --     { "<leader>dv", "<cmd>DockerVolumes<cr>", desc = "Docker volumes" },
+  --   },
+  --   opts = {
+  --     popup = {
+  --       width = "90%",
+  --       height = "90%",
+  --       border = "rounded",
+  --     },
+  --   },
+  -- },
   
   -- Log file syntax highlighting
   {

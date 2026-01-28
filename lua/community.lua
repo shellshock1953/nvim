@@ -6,7 +6,7 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.yaml" },
-  { import = "astrocommunity.pack.docker" },
+  -- { import = "astrocommunity.pack.docker" }, -- DISABLED: uses invalid server name "docker-language-server"
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.motion.mini-surround" },
   { import = "astrocommunity.motion.mini-move" },
