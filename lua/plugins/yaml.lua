@@ -1,60 +1,56 @@
+-- YAML tooling: schema selection + folding
 return {
+  -- Schemas for json/yamlls (loaded lazily by astrolsp)
+  { "b0o/schemastore.nvim", lazy = true, version = false },
+
+  -- YAML folding for large manifests
   {
-    "kevinhwang91/nvim-ufo",
+    "pedrohdz/vim-yaml-folds",
+    ft = { "yaml", "yml" },
+    config = function() vim.g.yaml_fold_override_foldtext = 1 end,
+  },
+
+  -- Interactive schema selection (yaml-companion)
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
     dependencies = {
-      "kevinhwang91/promise-async",
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
     },
-    event = "BufRead",
-    opts = {
-      provider_selector = function(bufnr, filetype, buftype)
-        return {'treesitter', 'indent'}
-      end,
-      fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = ('  %d '):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, {chunkText, hlGroup})
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, {suffix, 'MoreMsg'})
-        return newVirtText
-      end,
-    },
-    config = function(_, opts)
-      -- Fold options
-      vim.o.foldcolumn = '1'
-      vim.o.foldlevel = 99
-      vim.o.foldlevelstart = 99
-      vim.o.foldenable = true
-      require('ufo').setup(opts)
-      -- Using ufo provider need remap `zR` and `zM`
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
-      vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
-      vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
-      -- Quick preview fold under cursor
-      vim.keymap.set('n', 'K', function()
-        local winid = require('ufo').peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end)
+    ft = { "yaml", "yml" },
+    config = function()
+      require("telescope").load_extension("yaml_schema")
+      local cfg = require("yaml-companion").setup({
+        builtin_matchers = {
+          kubernetes = { enabled = true },
+          cloud_init = { enabled = true },
+        },
+        schemas = {
+          { name = "Argo CD Application",
+            uri = "https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json" },
+          { name = "Argo Workflows",
+            uri = "https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_workflows_schema.json" },
+          { name = "GitHub Actions",
+            uri = "https://json.schemastore.org/github-workflow.json" },
+          { name = "docker-compose",
+            uri = "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json" },
+        },
+      })
+      require("lspconfig")["yamlls"].setup(cfg)
     end,
+    keys = {
+      { "<leader>ys", "<cmd>Telescope yaml_schema<cr>", desc = "YAML Schema" },
+    },
+  },
+
+  -- JSON/YAML path
+  {
+    "mogelbrod/vim-jsonpath",
+    ft = { "json", "yaml", "yml" },
+    config = function() vim.g.jsonpath_register = "+" end,
+    keys = {
+      { "<leader>jp", "<cmd>JsonPath<cr>", desc = "Show JSON path", ft = { "json", "yaml", "yml" } },
+    },
   },
 }

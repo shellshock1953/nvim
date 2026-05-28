@@ -1,119 +1,34 @@
--- Productivity plugins for DevOps workflow optimization
+-- Productivity: task runner, time tracking
 return {
-  -- Environment variable management
+  -- Task runner for build/deploy
   {
-    "ellisonleao/dotenv.nvim",
-    config = true,
-    ft = { "sh", "bash", "zsh", "env" },
-  },
-
-  -- Advanced .env file support with sophisticated features
-  {
-    "philosofonusus/ecolog.nvim",
-    keys = {
-      { "<leader>ce", "<cmd>EcologGoto<cr>", desc = "Goto .env" },
-      { "<leader>cs", "<cmd>EcologSelect<cr>", desc = "Select .env" },
-      { "<leader>cp", "<cmd>EcologPeek<cr>", desc = "Peek .env" },
-    },
-    lazy = false,
+    "stevearc/overseer.nvim",
+    cmd = { "OverseerRun", "OverseerToggle", "OverseerInfo" },
     opts = {
-      integrations = {
-        lsp = true,
-        nvim_cmp = true,
-      },
-      path = vim.fn.getcwd(),
-      preferred_environment = "local",
+      strategy = "toggleterm",
+      templates = { "builtin" },
+      task_list = { direction = "bottom", min_height = 15, max_height = 25 },
+    },
+    keys = {
+      { "<leader>rn", "<cmd>OverseerRun<cr>",    desc = "Run task" },
+      { "<leader>rt", "<cmd>OverseerToggle<cr>", desc = "Task list" },
+      { "<leader>ri", "<cmd>OverseerInfo<cr>",   desc = "Task info" },
     },
   },
 
-  -- Time tracking for coding sessions
+  -- Time tracking
   {
     "ptdewey/pendulum-nvim",
-    config = function()
-      require("pendulum").setup({
-        log_file = vim.fn.expand("~/.local/share/nvim/pendulum.log"),
-        timeout_len = 5,
-        timer_len = 45,
-        gen_reports = true,
-      })
-    end,
     cmd = { "PendulumStart", "PendulumStop", "PendulumToggle", "PendulumReport" },
     keys = {
       { "<leader>Tt", "<cmd>PendulumToggle<cr>", desc = "Toggle time tracking" },
       { "<leader>Tr", "<cmd>PendulumReport<cr>", desc = "Time report" },
     },
-  },
-
-
-  -- YAML folding for large Kubernetes manifests
-  {
-    "pedrohdz/vim-yaml-folds",
-    ft = { "yaml", "yml" },
-    config = function()
-      vim.g.yaml_fold_override_foldtext = 1
-    end,
-  },
-
-  -- Advanced JSON/YAML path navigation
-  {
-    "mogelbrod/vim-jsonpath",
-    ft = { "json", "yaml", "yml" },
-    config = function()
-      vim.g.jsonpath_register = "+"
-    end,
-    keys = {
-      { "<leader>jp", "<cmd>JsonPath<cr>", desc = "Show JSON path", ft = { "json", "yaml", "yml" } },
+    opts = {
+      log_file = vim.fn.expand("~/.local/share/nvim/pendulum.log"),
+      timeout_len = 5,
+      timer_len = 45,
+      gen_reports = true,
     },
   },
-
-  -- Enhanced terminal for DevOps commands
-  {
-    "akinsho/toggleterm.nvim",
-    opts = function(_, opts)
-      -- Add DevOps-specific terminal configurations
-      local Terminal = require("toggleterm.terminal").Terminal
-      
-      -- K9s terminal
-      local k9s = Terminal:new({
-        cmd = "k9s",
-        hidden = true,
-        direction = "float",
-        close_on_exit = true,
-        float_opts = {
-          border = "curved",
-          width = function() return math.floor(vim.o.columns * 0.9) end,
-          height = function() return math.floor(vim.o.lines * 0.9) end,
-        },
-      })
-      
-      -- LazyDocker terminal
-      local lazydocker = Terminal:new({
-        cmd = "lazydocker",
-        hidden = true,
-        direction = "float",
-        close_on_exit = true,
-        float_opts = {
-          border = "curved",
-          width = function() return math.floor(vim.o.columns * 0.9) end,
-          height = function() return math.floor(vim.o.lines * 0.9) end,
-        },
-      })
-      
-      -- Terraform plan terminal
-      local tf_plan = Terminal:new({
-        cmd = "terraform plan",
-        hidden = true,
-        direction = "horizontal",
-        close_on_exit = false,
-      })
-      
-      -- Add keymaps
-      vim.keymap.set("n", "<leader>tk", function() k9s:toggle() end, { desc = "K9s" })
-      vim.keymap.set("n", "<leader>tl", function() lazydocker:toggle() end, { desc = "LazyDocker" })
-      vim.keymap.set("n", "<leader>ttp", function() tf_plan:toggle() end, { desc = "Terraform Plan" })
-      
-      return opts
-    end,
-  },
-
 }

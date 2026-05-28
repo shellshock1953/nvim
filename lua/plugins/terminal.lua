@@ -1,18 +1,14 @@
 return {
-  -- ToggleTerm is already included in AstroNvim by default
-  
-  -- Tmux integration for seamless navigation
+  -- Tmux/zellij integration for seamless navigation
   { import = "astrocommunity.terminal-integration.vim-tmux-navigator" },
-  
-  -- Enhanced toggleterm configuration
+
+  -- Enhanced toggleterm
   {
     "akinsho/toggleterm.nvim",
     opts = {
       size = function(term)
-        if term.direction == "horizontal" then
-          return 15
-        elseif term.direction == "vertical" then
-          return vim.o.columns * 0.4
+        if term.direction == "horizontal" then return 15
+        elseif term.direction == "vertical" then return vim.o.columns * 0.4
         end
       end,
       open_mapping = [[<c-\>]],
@@ -28,60 +24,43 @@ return {
       float_opts = {
         border = "curved",
         winblend = 0,
-        highlights = {
-          border = "Normal",
-          background = "Normal",
-        },
+        highlights = { border = "Normal", background = "Normal" },
       },
     },
     keys = {
-      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>", desc = "Terminal float" },
+      { "<leader>tf", "<cmd>ToggleTerm direction=float<cr>",              desc = "Terminal float" },
       { "<leader>th", "<cmd>ToggleTerm size=15 direction=horizontal<cr>", desc = "Terminal horizontal" },
-      { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>", desc = "Terminal vertical" },
-      { "<leader>tt", "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
-      -- DevOps specific terminals
+      { "<leader>tv", "<cmd>ToggleTerm size=80 direction=vertical<cr>",   desc = "Terminal vertical" },
+      { "<leader>tt", "<cmd>ToggleTerm<cr>",                              desc = "Toggle terminal" },
+      -- DevOps TUIs
       { "<leader>tg", function()
-        local Terminal = require("toggleterm.terminal").Terminal
-        local gitui = Terminal:new({ cmd = "gitui", hidden = true, direction = "float" })
-        gitui:toggle()
-      end, desc = "GitUI" },
+        require("toggleterm.terminal").Terminal:new({ cmd = "lazygit", hidden = true, direction = "float" }):toggle()
+      end, desc = "LazyGit" },
       { "<leader>tk", function()
-        local Terminal = require("toggleterm.terminal").Terminal
-        local k9s = Terminal:new({ cmd = "k9s", hidden = true, direction = "float" })
-        k9s:toggle()
+        require("toggleterm.terminal").Terminal:new({ cmd = "k9s", hidden = true, direction = "float" }):toggle()
       end, desc = "K9s" },
       { "<leader>tl", function()
-        local Terminal = require("toggleterm.terminal").Terminal
-        local lazydocker = Terminal:new({ cmd = "lazydocker", hidden = true, direction = "float" })
-        lazydocker:toggle()
+        require("toggleterm.terminal").Terminal:new({ cmd = "lazydocker", hidden = true, direction = "float" }):toggle()
       end, desc = "LazyDocker" },
       { "<leader>tb", function()
-        local Terminal = require("toggleterm.terminal").Terminal
-        local btm = Terminal:new({ cmd = "btm", hidden = true, direction = "float" })
-        btm:toggle()
+        require("toggleterm.terminal").Terminal:new({ cmd = "btm", hidden = true, direction = "float" }):toggle()
       end, desc = "Bottom (system monitor)" },
     },
   },
-  
-  -- Terminal file manager
+
+  -- Terminal file manager (yazi is more modern; keeping ranger lf for muscle memory)
   {
     "is0n/fm-nvim",
-    cmd = { "Ranger", "Nnn", "Fff", "Twf", "Fzf", "Vifm", "Broot", "Gitui", "Joshuto", "Lf" },
-    config = function()
-      require("fm-nvim").setup({
-        ui = {
-          default = "float",
-          float = {
-            border = "rounded",
-            height = 0.9,
-            width = 0.9,
-          },
-        },
-      })
-    end,
+    cmd = { "Ranger", "Lf", "Fzf", "Vifm", "Broot", "Gitui", "Joshuto" },
+    opts = {
+      ui = {
+        default = "float",
+        float = { border = "rounded", height = 0.9, width = 0.9 },
+      },
+    },
     keys = {
       { "<leader>fr", "<cmd>Ranger<cr>", desc = "Ranger file manager" },
-      { "<leader>fl", "<cmd>Lf<cr>", desc = "Lf file manager" },
+      { "<leader>fl", "<cmd>Lf<cr>",     desc = "Lf file manager" },
     },
   },
 }

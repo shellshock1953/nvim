@@ -15,12 +15,33 @@ This is an **AstroNvim v6** based Neovim configuration that uses Lazy.nvim for p
 - `lua/plugins/` - Individual plugin configurations
 
 ### Important Plugin Files
-- `lua/plugins/astrocore.lua` - Core vim options, keymaps, and features
-- `lua/plugins/astrolsp.lua` - LSP configuration (format on save, keymaps)
-- `lua/plugins/copilot.lua` - GitHub Copilot with blink.cmp integration
+- `lua/plugins/astrocore.lua` - Core vim options, keymaps, which-key groups, treesitter integration
+- `lua/plugins/astrolsp.lua` - LSP configuration (format on save, server settings). NOTE: yamlls is configured by yaml-companion in `yaml.lua`, NOT here.
+- `lua/plugins/copilot.lua` - GitHub Copilot via blink.cmp source (blink-copilot)
 - `lua/plugins/mason.lua` - Mason LSP/tool installer config
-- `lua/plugins/treesitter.lua` - Treesitter parsers and astrocore integration
-- `lazy-lock.json` - Pinned plugin versions (do not edit manually)
+- `lua/plugins/treesitter.lua` - Parser list + auto_install via astrocore.opts.treesitter (v6 pattern)
+- `lua/plugins/yaml.lua` - yaml-companion + schemastore + yaml-folds + jsonpath
+- `lua/plugins/devops.lua` - terraform, ansible, s3edit, sops, kulala (HTTP client)
+- `lua/plugins/git.lua` - diffview, blame, worktree, octo (GitHub PRs)
+- `lua/plugins/kubernetes.lua` - kubectl.nvim (k8s explorer)
+- `lua/plugins/data.lua` - dadbod (DB), csv, log highlighting, base64
+- `lua/plugins/env.lua` - dotenv + ecolog (lazy-loaded on .env files)
+- `lua/plugins/productivity.lua` - overseer (task runner) + pendulum (time tracking)
+- `lua/plugins/terminal.lua` - toggleterm + TUI launchers (k9s, lazygit, lazydocker, btm)
+- `lazy-lock.json` - Pinned plugin versions (committed; reproducible across machines)
+
+### DevOps which-key prefixes (see astrocore.lua)
+- `<leader>k` Kubernetes (kk=kubectl, kc=ctx, kn=ns)
+- `<leader>g` Git; `<leader>gO` GitHub (Octo); `<leader>gw` worktrees
+- `<leader>t` Terminal TUIs (tk=k9s, tl=lazydocker, tg=lazygit, tb=btm)
+- `<leader>T` Time tracking (pendulum)
+- `<leader>R` REST/HTTP (kulala)
+- `<leader>r` Run/Replace (overseer + rip-substitute)
+- `<leader>y` YAML (ys=schema selector); `<leader>j` JSON (jp=path)
+- `<leader>c` .env tools (ecolog)
+- `<leader>a` AWS (aS=S3Edit)
+- `<leader>x` eXtra (base64)
+- `<leader>e` Edit common dotfiles (ek=kubeconfig, es=ssh, ea=aws, et=terraformrc)
 
 ## Development Commands
 
@@ -53,9 +74,9 @@ This is an **AstroNvim v6** based Neovim configuration that uses Lazy.nvim for p
 
 3. **Completion**: Uses `blink.cmp` (replaces `nvim-cmp` from v4). Copilot source via `blink-copilot`.
 
-4. **Treesitter**: nvim-treesitter v2 (parser-only); highlight/indent opts configured via astrocore opts.
+4. **Treesitter (v6)**: nvim-treesitter on `main` branch is parser-only. All highlight/indent/auto_install/ensure_installed go through `astrocore.opts.treesitter` (AstroCore v3 API). Do NOT put `ensure_installed` on the `nvim-treesitter` plugin opts — it has no effect.
 
-5. **Language Support**: Includes specialized packs for Python, Terraform, Helm, Docker, JSON, YAML via AstroCommunity imports.
+5. **Language Support**: Specialized packs for Python, Terraform, Helm, JSON, YAML via AstroCommunity imports in `lua/community.lua`. User plugins layer on additional tooling (yaml-companion for schemas, vim-terraform for syntax extras).
 
 6. **Key Customizations**:
    - GitHub Copilot with blink.cmp integration

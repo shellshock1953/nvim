@@ -1,28 +1,7 @@
--- Treesitter in v6: nvim-treesitter is now just a parser download utility.
--- Highlighting, folding, and textobjects are configured via AstroCore.
-
+-- Treesitter in v6: nvim-treesitter is just a parser-download utility.
+-- All highlight/indent/textobject configuration goes through AstroCore.
 ---@type LazySpec
 return {
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "lua",
-        "vim",
-        "python",
-        "terraform",
-        "hcl",
-        "yaml",
-        "json",
-        "dockerfile",
-        "bash",
-        "markdown",
-        "markdown_inline",
-        "helm",
-        "go",
-      },
-    },
-  },
   {
     "AstroNvim/astrocore",
     ---@type AstroCoreOpts
@@ -30,7 +9,39 @@ return {
       treesitter = {
         highlight = true,
         indent = true,
-        autotag = false,
+        auto_install = true, -- auto-install parsers for opened buffers (and injection langs)
+        ensure_installed = {
+          "lua",
+          "vim",
+          "vimdoc",
+          "query",
+          "regex", -- used by many injection queries
+          "comment", -- used by yaml/json injections
+          "python",
+          "terraform",
+          "hcl",
+          "yaml",
+          "json",
+          "jsonc",
+          "dockerfile",
+          "bash",
+          "markdown",
+          "markdown_inline",
+          "helm",
+          "gotmpl", -- parent of helm injection
+          "go",
+          "diff",
+          "git_config",
+          "git_rebase",
+          "gitcommit",
+          "gitignore",
+          "gitattributes",
+          "html",
+          "css",
+          "toml",
+          "ini",
+          "sql",
+        },
       },
     },
   },

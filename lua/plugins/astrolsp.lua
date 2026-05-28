@@ -27,41 +27,7 @@ return {
     config = {
       ["*"] = {},
       bashls = {},
-      yamlls = {
-        settings = {
-          yaml = {
-            schemas = {
-              kubernetes = "*.yaml",
-              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-              ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
-              ["https://raw.githubusercontent.com/argoproj/argo-schema-generator/main/schema/argo_all_k8s_kustomize_schema.json"] = "/*argo*.yaml",
-              ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose*.{yml,yaml}",
-            },
-            validate = true,
-            customTags = {
-              "!reference sequence",
-              "!Sub",
-              "!GetAtt",
-              "!GetAZs",
-              "!ImportValue",
-              "!Select",
-              "!Split",
-              "!Join sequence",
-              "!FindInMap sequence",
-              "!Select sequence",
-              "!Ref",
-              "!Equals sequence",
-              "!If sequence",
-              "!Not sequence",
-              "!And sequence",
-              "!Or sequence",
-              "!Base64",
-              "!Cidr",
-              "!Sub sequence",
-            },
-          },
-        },
-      },
+      -- yamlls is configured by yaml-companion.nvim (see plugins/yaml.lua)
       jsonls = {
         settings = {
           json = {
