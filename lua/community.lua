@@ -6,11 +6,8 @@ return {
   { import = "astrocommunity.pack.terraform" },
   { import = "astrocommunity.pack.json" },
   { import = "astrocommunity.pack.yaml" },
-  -- { import = "astrocommunity.pack.docker" }, -- DISABLED: uses invalid server name "docker-language-server"
   { import = "astrocommunity.diagnostics.trouble-nvim" },
   { import = "astrocommunity.motion.mini-surround" },
   { import = "astrocommunity.motion.mini-move" },
   { import = "astrocommunity.motion.harpoon" },
-  -- Git integration (already added in gitops.lua, but listed here for visibility)
-  -- { import = "astrocommunity.git.vim-fugitive" },
 }

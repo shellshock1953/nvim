@@ -1,3 +1,4 @@
+-- Copilot with blink.cmp (v6 uses blink.cmp instead of nvim-cmp)
 return {
   {
     "zbirenbaum/copilot.lua",
@@ -14,12 +15,24 @@ return {
     end,
   },
   {
-    "zbirenbaum/copilot-cmp",
-    dependencies = { "copilot.lua" },
-    config = function()
-      require("copilot_cmp").setup({
-        method = "getCompletionsCycling",
-      })
-    end,
+    "fang2hou/blink-copilot",
+    dependencies = { "zbirenbaum/copilot.lua" },
+  },
+  {
+    "saghen/blink.cmp",
+    optional = true,
+    opts = {
+      sources = {
+        default = { "copilot", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-copilot",
+            score_offset = 100,
+            async = true,
+          },
+        },
+      },
+    },
   },
 }

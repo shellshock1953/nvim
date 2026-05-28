@@ -1,56 +1,56 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
--- AstroCore provides a central place to modify mappings, vim options, autocommands, and more!
--- Configuration documentation can be found with `:h astrocore`
--- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
---       as this provides autocomplete and documentation while editing
-
 ---@type LazySpec
 return {
   "AstroNvim/astrocore",
   ---@type AstroCoreOpts
   opts = {
-    -- Configure core features of AstroNvim
     features = {
-      large_buf = { size = 1024 * 256, lines = 10000 }, -- set global limits for large files for disabling features like treesitter
-      autopairs = true, -- enable autopairs at start
-      cmp = true, -- enable completion at start
-      diagnostics_mode = 3, -- diagnostic mode on start (0 = off, 1 = no signs/virtual text, 2 = no virtual text, 3 = on)
-      highlighturl = true, -- highlight URLs at start
-      notifications = true, -- enable notifications at start
+      large_buf = { size = 1024 * 256, lines = 10000 },
+      autopairs = true,
+      diagnostics = { virtual_text = true, virtual_lines = false },
+      highlighturl = true,
+      notifications = true,
     },
-    -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
     diagnostics = {
       virtual_text = true,
       underline = true,
     },
-    -- vim options can be configured here
     options = {
-      opt = { -- vim.opt.<key>
-        relativenumber = true, -- sets vim.opt.relativenumber
-        number = true, -- sets vim.opt.number
-        spell = false, -- sets vim.opt.spell
-        signcolumn = "yes", -- sets vim.opt.signcolumn to yes
-        wrap = false, -- sets vim.opt.wrap
+      opt = {
+        relativenumber = true,
+        number = true,
+        spell = false,
+        signcolumn = "yes",
+        wrap = false,
+        -- from user.lua
+        mouse = "a",
+        clipboard = "unnamedplus",
+        swapfile = false,
+        completeopt = "menuone,noinsert,noselect",
+        showmatch = true,
+        cursorcolumn = true,
+        splitright = true,
+        splitbelow = true,
+        ignorecase = true,
+        smartcase = true,
+        linebreak = true,
+        termguicolors = true,
+        laststatus = 3,
+        expandtab = true,
+        shiftwidth = 4,
+        tabstop = 4,
+        smartindent = true,
+        hidden = true,
+        history = 100,
+        synmaxcol = 240,
+        updatetime = 250,
+        fixendofline = true,
       },
-      g = { -- vim.g.<key>
-        -- configure global vim variables (vim.g)
-        -- NOTE: `mapleader` and `maplocalleader` must be set in the AstroNvim opts or before `lazy.setup`
-        -- This can be found in the `lua/lazy_setup.lua` file
-      },
+      g = {},
     },
-    -- Mappings can be configured through AstroCore as well.
-    -- NOTE: keycodes follow the casing in the vimdocs. For example, `<Leader>` must be capitalized
     mappings = {
-      -- first key is the mode
       n = {
-        -- second key is the lefthand side of the map
-
-        -- navigate buffer tabs
         ["]b"] = { function() require("astrocore.buffer").nav(vim.v.count1) end, desc = "Next buffer" },
         ["[b"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
-
-        -- mappings seen under group name "Buffer"
         ["<Leader>bd"] = {
           function()
             require("astroui.status.heirline").buffer_picker(
@@ -59,13 +59,51 @@ return {
           end,
           desc = "Close buffer from tabline",
         },
-
-        -- tables with just a `desc` key will be registered with which-key if it's installed
-        -- this is useful for naming menus
-        -- ["<Leader>b"] = { desc = "Buffers" },
-
-        -- setting a mapping to false will disable it
-        -- ["<C-S>"] = false,
+        -- DevOps navigation groups
+        ["<leader>k"] = { desc = "Kubernetes" },
+        ["<leader>d"] = { desc = "Docker/DevOps" },
+        ["<leader>g"] = { desc = "Git" },
+        ["<leader>t"] = { desc = "Terminal" },
+        ["<leader>r"] = { desc = "Run/Replace" },
+        ["<leader>x"] = { desc = "eXtra tools" },
+        ["<leader>y"] = { desc = "YAML tools" },
+        ["<leader>a"] = { desc = "API testing" },
+        ["<leader>j"] = { desc = "JSON tools" },
+        -- Quick access to common DevOps files
+        ["<leader>fk"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{yaml,yml},--glob,!.git<cr>", desc = "Find YAML files" },
+        ["<leader>ft"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{tf,tfvars},--glob,!.git<cr>", desc = "Find Terraform files" },
+        ["<leader>fd"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/Dockerfile*,--glob,**/*docker-compose*.{yml,yaml},--glob,!.git<cr>", desc = "Find Docker files" },
+        ["<leader>fh"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*values*.{yaml,yml},--glob,**/Chart.yaml,--glob,!.git<cr>", desc = "Find Helm files" },
+        -- Git shortcuts
+        ["<leader>gP"] = { "<cmd>Git push<cr>", desc = "Git push" },
+        ["<leader>gp"] = { "<cmd>Git pull<cr>", desc = "Git pull" },
+        -- Quick edits
+        ["<leader>ek"] = { "<cmd>e ~/.kube/config<cr>", desc = "Edit kubeconfig" },
+        ["<leader>es"] = { "<cmd>e ~/.ssh/config<cr>", desc = "Edit SSH config" },
+        ["<leader>ea"] = { "<cmd>e ~/.aws/credentials<cr>", desc = "Edit AWS credentials" },
+        ["<leader>et"] = { "<cmd>e ~/.terraformrc<cr>", desc = "Edit Terraform RC" },
+        -- Buffer management
+        ["<leader>bb"] = { "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
+        -- Window maximize/restore toggle
+        ["<C-w>z"] = {
+          function()
+            vim.t.zoom_winrestcmd = vim.t.zoom_winrestcmd or nil
+            if vim.t.zoom_winrestcmd then
+              vim.cmd(vim.t.zoom_winrestcmd)
+              vim.t.zoom_winrestcmd = nil
+            else
+              vim.t.zoom_winrestcmd = vim.fn.winrestcmd()
+              vim.cmd("resize")
+              vim.cmd("vertical resize")
+            end
+          end,
+          desc = "Toggle window maximize/restore",
+        },
+      },
+      v = {
+        ["<leader>k"] = { desc = "Kubernetes" },
+        ["<leader>d"] = { desc = "Docker/DevOps" },
+        ["<leader>x"] = { desc = "eXtra tools" },
       },
     },
   },
