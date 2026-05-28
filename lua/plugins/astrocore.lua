@@ -72,7 +72,9 @@ return {
         ["<leader>j"] = { desc = "JSON tools" },
         ["<leader>c"] = { desc = ".env (ecolog)" },
         ["<leader>a"] = { desc = "AWS/cloud" },
-        ["<leader>e"] = { desc = "Edit dotfiles" },
+        ["<leader>E"] = { desc = "Edit dotfiles" },
+        -- Project picker (snacks.nvim built-in)
+        ["<leader>P"] = { function() require("snacks").picker.projects() end, desc = "Open project" },
         -- Quick access to common DevOps files
         ["<leader>fk"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{yaml,yml},--glob,!.git<cr>", desc = "Find YAML files" },
         ["<leader>ft"] = { "<cmd>Telescope find_files find_command=rg,--files,--glob,**/*.{tf,tfvars},--glob,!.git<cr>", desc = "Find Terraform files" },
@@ -82,10 +84,10 @@ return {
         ["<leader>gP"] = { "<cmd>Git push<cr>", desc = "Git push" },
         ["<leader>gp"] = { "<cmd>Git pull<cr>", desc = "Git pull" },
         -- Quick edits
-        ["<leader>ek"] = { "<cmd>e ~/.kube/config<cr>", desc = "Edit kubeconfig" },
-        ["<leader>es"] = { "<cmd>e ~/.ssh/config<cr>", desc = "Edit SSH config" },
-        ["<leader>ea"] = { "<cmd>e ~/.aws/credentials<cr>", desc = "Edit AWS credentials" },
-        ["<leader>et"] = { "<cmd>e ~/.terraformrc<cr>", desc = "Edit Terraform RC" },
+        ["<leader>Ek"] = { "<cmd>e ~/.kube/config<cr>", desc = "Edit kubeconfig" },
+        ["<leader>Es"] = { "<cmd>e ~/.ssh/config<cr>", desc = "Edit SSH config" },
+        ["<leader>Ea"] = { "<cmd>e ~/.aws/credentials<cr>", desc = "Edit AWS credentials" },
+        ["<leader>Et"] = { "<cmd>e ~/.terraformrc<cr>", desc = "Edit Terraform RC" },
         -- Buffer management
         ["<leader>bb"] = { "<cmd>Telescope buffers<cr>", desc = "Find buffers" },
         -- Window maximize/restore toggle

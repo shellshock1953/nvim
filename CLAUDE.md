@@ -41,7 +41,9 @@ This is an **AstroNvim v6** based Neovim configuration that uses Lazy.nvim for p
 - `<leader>c` .env tools (ecolog)
 - `<leader>a` AWS (aS=S3Edit)
 - `<leader>x` eXtra (base64)
-- `<leader>e` Edit common dotfiles (ek=kubeconfig, es=ssh, ea=aws, et=terraformrc)
+- `<leader>e` Toggle neo-tree explorer (AstroNvim default)
+- `<leader>E` Edit common dotfiles (Ek=kubeconfig, Es=ssh, Ea=aws, Et=terraformrc)
+- `<leader>P` Open project (snacks.picker.projects)
 
 ## Development Commands
 
